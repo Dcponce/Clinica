@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="template.type" value="columnar"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="valor" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select dt.diagnostico, dt.tratamiento, c.fechaProgramda, p.nombre, p.apellido from detalle_expediente dt inner join expediente e on dt.idExpe=e.id 
+inner join cita c on dt.idCita=c.id inner join persona p on e.idPaciente=p.id where dt.idExpe=$P{valor};]]>
+	</queryString>
+	<field name="diagnostico" class="java.lang.String"/>
+	<field name="tratamiento" class="java.lang.String"/>
+	<field name="fechaProgramda" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="apellido" class="java.lang.String"/>
+	<group name="fechaProgramda">
+		<groupExpression><![CDATA[$F{fechaProgramda}]]></groupExpression>
+		<groupHeader>
+			<band height="36">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#9DB1B8"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement style="SubTitle" isPrintRepeatedValues="false" x="2" y="1" width="479" height="23" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{fechaProgramda}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement style="Detail" positionType="Float" x="349" y="6" width="204" height="18"/>
+						<textElement>
+							<font size="14" isBold="false" pdfFontName="Times-Bold"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{tratamiento}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="163" y="13" width="148" height="23"/>
+					<textElement>
+						<font size="14" isBold="false" pdfFontName="Times-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{diagnostico}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-1" y="-5" width="557" height="1"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="59"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="206" splitType="Stretch">
+			<image>
+				<reportElement x="385" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="428" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="238" y="2" width="100" height="25"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="1" y="105" width="57" height="20" forecolor="#999999"/>
+				<textElement/>
+				<text><![CDATA[PACIENTE]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="58" y="103" width="106" height="18"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="163" y="103" width="115" height="18"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="422" y="93" width="131" height="79" forecolor="#000000"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Mayo Clinica Dental
+San Salvador,
+San Salvador, El Salvador
+(503) 2222-2525
+clinic@example.com]]></text>
+			</staticText>
+			<image>
+				<reportElement x="215" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="258" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="299" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="342" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="514" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="471" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="129" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="172" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="43" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="86" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="31" width="43" height="50"/>
+				<imageExpression><![CDATA["C:\\Users\\David Cordova\\Desktop\\USAID\\proyecto\\Nivel 1\\clinica_mayo\\web\\reportes\\dimension.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="102" y="186" width="132" height="20" forecolor="#999999"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[DIAGNÓSTICO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="311" y="186" width="132" height="20" forecolor="#999999"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[TRATAMIENTO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="81" width="557" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="28" width="557" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="225" y="39" width="131" height="31" forecolor="#999999"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Expediente]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="555" height="13" forecolor="#D0B48E" backcolor="#9DB1B8"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="-1" width="40" height="13" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="-1" width="80" height="13" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="0" width="197" height="13" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

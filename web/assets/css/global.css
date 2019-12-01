@@ -1,0 +1,29 @@
+.bg{
+	background: url("../img/fondoL.jpeg"); 
+	width: 100%;
+	height: 100vh;
+}
+.form-container{
+	border: 0px solid #fff;
+	padding: 50px 60px;
+	margin-top: 20vh;
+	-webkit-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
+	-moz-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
+	box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
+}
+form input{
+	margin-top: 5vh;
+}
+span{
+	color: #3b5998;
+}
+h1{
+	font-weight: bold;
+        font-style: italic;
+        color: #545454;
+	
+}
+html{
+	font-size: 16px;
+	font-family: 'Lato', sans-serif;
+}

@@ -7,9 +7,15 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Paciente_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Paciente_model per = new Paciente_model();
     ArrayList<Paciente_model> list = per.list();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,8 +121,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < list.size(); i++) {
+                                            <%                                                for (int i = 0; i < list.size(); i++) {
                                                     String nombre = list.get(i).getNombre();
                                                     String apellido = list.get(i).getApellido();
                                                     String telefono = list.get(i).getTelefono();
@@ -343,4 +348,8 @@
 
 </body>
 </html>
-
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

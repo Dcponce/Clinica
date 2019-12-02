@@ -6,9 +6,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Descuento_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Descuento_model per = new Descuento_model();
     ArrayList<Descuento_model> list = per.list();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,8 +103,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < list.size(); i++) {
+                                            <%                                                for (int i = 0; i < list.size(); i++) {
                                                     int id = list.get(i).getId();
                                                     String tipoDesc = list.get(i).getTipoDesc();
                                                     double porcentaje = list.get(i).getPorcentaje();
@@ -136,7 +140,7 @@
                 <!-- End of Main Content -->
 
                 <!-- Footer -->
-               <%@include file="footer.jsp" %>
+                <%@include file="footer.jsp" %>
                 <!-- End of Footer -->
 
             </div>
@@ -300,3 +304,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

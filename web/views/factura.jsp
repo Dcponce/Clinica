@@ -8,9 +8,15 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Citas_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Citas_model ci = new Citas_model();
     ArrayList<Citas_model> lis = ci.Citaf();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,8 +99,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < lis.size(); i++) {
+                                            <%                                                for (int i = 0; i < lis.size(); i++) {
                                                     String nombre = lis.get(i).getNombre();
                                                     String apellido = lis.get(i).getApellido();
                                                     String fecha = lis.get(i).getFecha();
@@ -105,7 +110,7 @@
                                                 <td><%= apellido%></td>
                                                 <td><%= fecha%></td>
                                                 <td><center>
-                                                    <a href="Fpdf.jsp?id=<%= lis.get(i).getId() %>" target="_blank">
+                                            <a href="Fpdf.jsp?id=<%= lis.get(i).getId()%>" target="_blank">
                                                 <i class="material-icons" data-toggle="tooltip" title="Generar factura" style="color:  #c0392b;">description</i>
                                             </a>
                                         </center></td>
@@ -170,3 +175,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

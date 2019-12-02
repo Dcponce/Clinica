@@ -9,12 +9,18 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Expediente_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Expediente_model per = new Expediente_model();
     ArrayList<Expediente_model> list = per.list();
 
     Citas_model ci = new Citas_model();
     ArrayList<Citas_model> lis = ci.Npaciente();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,24 +106,22 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < list.size(); i++) {
-                                                    int id = list.get(i).getId();
+                                            <%                                                for (int i = 0; i < list.size(); i++) {
                                                     int idc = list.get(i).getCita();
-                                                    String nom=list.get(i).getNom();
-                                                    String ap=list.get(i).getApe();
+                                                    String nom = list.get(i).getNom();
+                                                    String ap = list.get(i).getApe();
                                             %>
                                             <tr>
                                                 <td><%= list.get(i).getId()%></td>                                                
-                                                <td><%= nom+" "+ap%></td>
+                                                <td><%= nom + " " + ap%></td>
 
                                                 <td>
                                                     <a href="#nuevo" onclick="nuevo(<%=list.get(i).getId()%>,<%= list.get(i).getPaciente()%>,<%= idc%>)" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="Crear nuevo historial" style="color:  #01DFA5;">assignment</i>
                                                     </a>                                                    
-                                                    <a href="exp.jsp?id=<%= list.get(i).getId() %>" target="_blank">
-                                                <i class="material-icons" data-toggle="tooltip" title="Expediente" style="color:  #c0392b;">chrome_reader_mode</i>
-                                            </a>
+                                                    <a href="exp.jsp?id=<%= list.get(i).getId()%>" target="_blank">
+                                                        <i class="material-icons" data-toggle="tooltip" title="Expediente" style="color:  #c0392b;">chrome_reader_mode</i>
+                                                    </a>
                                                 </td>
 
                                             </tr>
@@ -224,3 +228,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

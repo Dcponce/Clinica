@@ -11,8 +11,13 @@
 <%@page import="java.io.File"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
-    int id = Integer.parseInt(request.getParameter("id"));
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
 %>
 <!DOCTYPE html>
 <html>
@@ -29,10 +34,10 @@
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clinica_dental", "root", "");
 
             File jasperFile = new File(application.getRealPath("reportes/reporte.jasper"));
-            
+
             Map parametro = new HashMap();
             parametro.put("valor", id);
-            
+
             byte[] bytes = JasperRunManager.runReportToPdf(jasperFile.getPath(), parametro, con);
             response.setContentType("pdf");
             response.setContentLength(bytes.length);
@@ -45,3 +50,8 @@
         %>
     </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

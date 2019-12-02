@@ -8,9 +8,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.UsuarioN_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     UsuarioN_model per = new UsuarioN_model();
     ArrayList<UsuarioN_model> list = per.list();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
 
 %>
 <!DOCTYPE html>
@@ -104,8 +109,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < list.size(); i++) {
+                                            <%                                                for (int i = 0; i < list.size(); i++) {
                                                     String usuario = list.get(i).getUsuario();
                                                     String nom = list.get(i).getNom();
                                                     String ap = list.get(i).getApe();
@@ -118,7 +122,7 @@
                                                 <td><%= list.get(i).getId()%></td>
                                                 <td><%= usuario%></td>
                                                 <td><%= acceso%></td>
-                                                <td><%= nom+" "+ap%></td>
+                                                <td><%= nom + " " + ap%></td>
                                                 <td>
                                                     <a href="#editar" onclick="cargar(<%=list.get(i).getId()%>, '<%=usuario%>',<%=nivel%>,<%=empleado%>)" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="Editar" style="color:  #f1c40f;">&#xE254;</i>
@@ -301,4 +305,8 @@
 
 </body>
 </html>
-
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

@@ -7,9 +7,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Cargo_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Cargo_model ca = new Cargo_model();
     ArrayList<Cargo_model> li = ca.listar();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +45,7 @@
             }
             function cargar(id, nom) {
                 document.Update.txtId.value = id;
-                document.Update.txtCargo.value=nom;
+                document.Update.txtCargo.value = nom;
 
             }
         </script>
@@ -96,8 +101,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < li.size(); i++) {
+                                            <%                                                for (int i = 0; i < li.size(); i++) {
                                                     int id = li.get(i).getId();
                                                     String nom = li.get(i).getNombre();
 
@@ -246,3 +250,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

@@ -9,6 +9,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Expediente_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Expediente_model per = new Expediente_model();
     ArrayList<Expediente_model> list = per.list();
@@ -18,6 +19,11 @@
 
     Citas_model ci = new Citas_model();
     ArrayList<Citas_model> lis = ci.Npaciente();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,18 +112,17 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < list.size(); i++) {
+                                            <%                                                for (int i = 0; i < list.size(); i++) {
                                                     String fecha = list.get(i).getFecha();
                                                     int id = list.get(i).getId();
                                                     int idp = list.get(i).getPaciente();
-                                                    String nom=list.get(i).getNom();
-                                                    String ap=list.get(i).getApe();
+                                                    String nom = list.get(i).getNom();
+                                                    String ap = list.get(i).getApe();
                                             %>
                                             <tr>
                                                 <td><%= list.get(i).getId()%></td>
                                                 <td><%= fecha%></td>
-                                                <td><%= nom+" "+ap%></td>
+                                                <td><%= nom + " " + ap%></td>
 
                                                 <td>
                                                     <a href="#editar" onclick="cargar(<%=list.get(i).getId()%>,<%= list.get(i).getPaciente()%>)" data-toggle="modal">
@@ -268,3 +273,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

@@ -11,6 +11,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.DetalleCita_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Citas_model dc = new Citas_model();
     ArrayList<Citas_model> lis = dc.Citas();
@@ -23,6 +24,10 @@
 
     Empleado_model emp = new Empleado_model();
     ArrayList<Empleado_model> eli = emp.doc();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -125,8 +130,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < lis.size(); i++) {
+                                            <%                                                for (int i = 0; i < lis.size(); i++) {
                                                     int id = lis.get(i).getId();
                                                     String fe = lis.get(i).getFecha();
                                                     String hr = lis.get(i).getHora();
@@ -383,3 +387,8 @@
     </script>
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

@@ -7,9 +7,15 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Enfermedad_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Enfermedad_model ef = new Enfermedad_model();
-    ArrayList<Enfermedad_model> li= ef.EnfeList();
+    ArrayList<Enfermedad_model> li = ef.EnfeList();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +46,7 @@
             }
             function cargar(id, nom) {
                 document.Update.txtId.value = id;
-                document.Update.txtEf.value=nom;
+                document.Update.txtEf.value = nom;
 
             }
         </script>
@@ -96,8 +102,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < li.size(); i++) {
+                                            <%                                                for (int i = 0; i < li.size(); i++) {
                                                     int id = li.get(i).getId();
                                                     String nom = li.get(i).getNombre();
 
@@ -246,3 +251,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

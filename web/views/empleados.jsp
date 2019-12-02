@@ -9,12 +9,18 @@
 <%@page import="java.sql.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Empleado_model per = new Empleado_model();
     ArrayList<Empleado_model> list = per.listar_emp();
 
     Cargo_model ca = new Cargo_model();
     ArrayList<Cargo_model> li = ca.listar();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -123,8 +129,7 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < list.size(); i++) {
+                                            <%                                                for (int i = 0; i < list.size(); i++) {
                                                     String nombre = list.get(i).getNombre();
                                                     String apellido = list.get(i).getApellido();
                                                     String telefono = list.get(i).getTelefono();
@@ -132,8 +137,8 @@
                                                     String correo = list.get(i).getCorreo();
                                                     String dui = list.get(i).getDui();
                                                     int cargo = list.get(i).getIdCargo();
-                                                    String sex= list.get(i).getSexo();
-                                                    String tle= list.get(i).getContacto();
+                                                    String sex = list.get(i).getSexo();
+                                                    String tle = list.get(i).getContacto();
                                             %>
                                             <tr>
                                                 <td><%= list.get(i).getId()%></td>
@@ -148,7 +153,7 @@
                                                 <td><%= cargo%></td>
 
                                                 <td>
-                                                    <a href="#editar" onclick="cargar(<%=list.get(i).getId()%>, '<%=nombre%>', '<%= apellido%>', '<%= telefono%>', '<%= correo%>', '<%= direccion%>', '<%= dui%>', '<%= sex%>','<%= tle%>','<%= cargo%>')" data-toggle="modal">
+                                                    <a href="#editar" onclick="cargar(<%=list.get(i).getId()%>, '<%=nombre%>', '<%= apellido%>', '<%= telefono%>', '<%= correo%>', '<%= direccion%>', '<%= dui%>', '<%= sex%>', '<%= tle%>', '<%= cargo%>')" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="Editar" style="color:  #f1c40f;">&#xE254;</i>
                                                     </a>
                                                     <a href="#borrar" onclick="eliminar(<%=list.get(i).getId()%>)" data-toggle="modal">
@@ -371,3 +376,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>

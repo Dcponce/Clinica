@@ -7,9 +7,15 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Servicio_model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="true"%>
 <%
     Servicio_model ser = new Servicio_model();
-    ArrayList<Servicio_model> li= ser.liSer();
+    ArrayList<Servicio_model> li = ser.liSer();
+
+    if (request.getSession().getAttribute("acceso") != null) {
+
+        if (request.getSession().getAttribute("acceso").equals(1) || request.getSession().getAttribute("acceso").equals(2)) {
+
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,8 +46,8 @@
             }
             function cargar(id, nom, pre) {
                 document.Update.txtId.value = id;
-                document.Update.txtSer.value=nom;
-                document.Update.txtPre.value=pre;
+                document.Update.txtSer.value = nom;
+                document.Update.txtPre.value = pre;
 
             }
         </script>
@@ -99,11 +105,10 @@
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <%
-                                                for (int i = 0; i < li.size(); i++) {
+                                            <%                                                for (int i = 0; i < li.size(); i++) {
                                                     int id = li.get(i).getId();
                                                     String nom = li.get(i).getNombre();
-                                                    double pre= li.get(i).getPrecio();
+                                                    double pre = li.get(i).getPrecio();
 
                                             %>
                                             <tr>
@@ -111,7 +116,7 @@
                                                 <td><%= nom%></td>
                                                 <td>$ <%= pre%></td>
                                                 <td>
-                                                    <a href="#editar" onclick="cargar(<%=id%>, '<%=nom%>','<%= pre%>')" data-toggle="modal">
+                                                    <a href="#editar" onclick="cargar(<%=id%>, '<%=nom%>', '<%= pre%>')" data-toggle="modal">
                                                         <i class="material-icons" data-toggle="tooltip" title="Editar" style="color:  #f1c40f;">&#xE254;</i>
                                                     </a>
                                                     <a href="#borrar" onclick="eliminar(<%= id%>)" data-toggle="modal">
@@ -166,7 +171,7 @@
                             <label>Tipo de servicio </label>
                             <input type="text" name="txtSer" class="form-control" required pattern="[A-Za-z]{}" title="Campo requiere letras">
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label>Precio</label>
                             <input type="number" name="txtPre" class="form-control" required step="0.1">
                         </div>
@@ -218,7 +223,7 @@
                             <label>Tipo de servicio </label>
                             <input type="text" name="txtSer" class="form-control" required pattern="[A-Za-z]{}" title="Campo requiere letras">
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label>Precio</label>
                             <input type="number" name="txtPre" class="form-control" required step="0.1">
                         </div>
@@ -258,3 +263,8 @@
 
 </body>
 </html>
+<%        }
+    } else {
+        request.getRequestDispatcher("error404.jsp").forward(request, response);
+    }
+%>
